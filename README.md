@@ -5,6 +5,7 @@
 - A back end service (not a website)
 - Gets emails of people who sign up on TypeForm
 - Invites those people to join the slack channel
+- Following the strategy of the #nomads slack team: https://levels.io/slack-typeform-auto-invite-sign-ups/
 
 ## How it works
 
@@ -39,7 +40,7 @@ source ~/.bash_profile
 ```
 - Clone this repo:
 - `cd` into the directory of your repo
-- In a text editor, find the `constants.js` file and update the value of `TYPEFORM_EMAIL_FIELD` and `TYPEFORM_FORM_ID` to match your form. `TYPEFORM_FORM_ID` is the last 6 characters of the URL your users see when they go to the form, e.g., `p5DhOL`. The value for `TYPEFORM_EMAIL_FIELD` is currently not so easy to get without making an API call first and looking at the response.
+- In a text editor, find the `constants.js` file and update the value of `TYPEFORM_EMAIL_FIELD` and `TYPEFORM_FORM_ID` to match your form. `TYPEFORM_FORM_ID` is the last 6 characters of the URL your users see when they go to the form, e.g., `p5DhOL`. The value for `TYPEFORM_EMAIL_FIELD` can be found by going to the Build section of your form workspace, creating a new field and adding the email field as a variable. You'll see something like `{{answer_12345678}}` - that is the value you need, except swap `answer` for `email`. (Then delete the new field when you're done.)
 - Install dependencies: `npm install`
 - Start the application: `npm start`
 
@@ -51,3 +52,7 @@ source ~/.bash_profile
 - Set up a cron service to hit the endpoint every 30-60 minutes
 - Error handling for connection failures
 - Better logging
+- Match interests to specific channels to invite people to
+- Remove lodash dependency in package.json
+- Tests!
+- Better null checking in `parseResponseForEmails`

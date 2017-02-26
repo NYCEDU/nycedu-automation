@@ -3,10 +3,10 @@
 
 ## What it does
 - Invites people to join NYCEDU Slack after they fill out a form (using the Typeform API and the strategy of the #nomads slack team: https://levels.io/slack-typeform-auto-invite-sign-ups/)
+- Follow people on Twitter when they fill out the Typeform sign-up form (if they have completed the form with their Twitter handle)
 - Retweets users followed by NYCEDU that use the #NYCEDU hashtag.
 
 ## Upcoming integrations
-- Follow people on Twitter when they fill out the Typeform sign-up form (if they have completed the form with their Twitter handle)
 - Add people to MailChimp mailing list when they fill out the Typeform
 - Send users a welcome message when they actually do join Slack
 
@@ -51,15 +51,14 @@ source ~/.bash_profile
 
 ## Top TODOs
 
-- Error handling to send back 500 codes
+- Deploy app
 - Get API keys and form values for production Slack team and form
 - Configure application for production and deploy
 - Set up a cron service to hit the endpoint every 30-60 minutes
 - Error handling for connection failures etc.
 - Better logging
-- Remove lodash dependency in package.json
 - Tests!
 - Linting and style guide
 - Set up issue tracking and slack / github integrations for devs
 - Better null checking in `parseResponseForEmails`
-- Return more than just emails (also Twitter handles etc.) from `getInvitees`
+- Refactor Twitter code with promises

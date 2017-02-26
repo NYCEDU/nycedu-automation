@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+const inviteUsers = require('../invite-users'),
+    followUsers = require('../follow-users'),
+    getInvitees = require('../get-invitees')
+
+console.log("Getting latest signups from Typeform ...");
+
+getInvitees( users => {
+    inviteUsers(users)
+    followUsers(users)
+})

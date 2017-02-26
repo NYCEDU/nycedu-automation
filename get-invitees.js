@@ -5,6 +5,7 @@ const request = require('request'),
       constants = require('./constants'),
       TYPEFORM_FORM_ID = constants.TYPEFORM_FORM_ID,
       TYPEFORM_EMAIL_FIELD = constants.TYPEFORM_EMAIL_FIELD,
+      TYPEFORM_TWITTER_FIELD = constants.TYPEFORM_TWITTER_FIELD,
       getPreviouslyInvited = require('./helpers').getPreviouslyInvited
 
 function getInvitees(callback) {
@@ -26,17 +27,24 @@ function getInvitees(callback) {
                 console.log('Error', error)
             } else {
                 console.log('Received responses from Typeform: ', body)
-                const emails = parseResponseForEmails(JSON.parse(body))
-                console.log('Number of new signups: ' + emails.length)
-                console.log(emails)
-                callback(emails)
+                const userData = parseResponse(JSON.parse(body))
+                console.log('Number of new signups: ' + userData.length)
+                console.log(userData)
+                callback(userData)
             }
     })
 }
 
-function parseResponseForEmails(data) {
+function parseResponse(data) {
     if (!data.responses) { return []; }
-    return data.responses.map( r => r.answers[TYPEFORM_EMAIL_FIELD])
+    return data.responses.map( r => {
+        let screenName = r.answers[TYPEFORM_TWITTER_FIELD]
+        if (screenName) { screenName = screenName.replace('@', '') }
+        return {
+            email: r.answers[TYPEFORM_EMAIL_FIELD],
+            twitter: screenName
+        }
+    })
 }
 
 module.exports = getInvitees

@@ -1,20 +1,21 @@
-# #NYCEDU Invite To Slack Service
+# NYCEDU Automation
+*Scripts and integrations that make life easier for NYCEDU admins*
 
 ## What it does
+- Invites people to join NYCEDU Slack after they fill out a form (using the Typeform API and the strategy of the #nomads slack team: https://levels.io/slack-typeform-auto-invite-sign-ups/)
+- Retweets users followed by NYCEDU that use the #NYCEDU hashtag.
 
-- A back end service (not a website)
-- Gets emails of people who sign up on TypeForm
-- Invites those people to join the slack channel
-- Following the strategy of the #nomads slack team: https://levels.io/slack-typeform-auto-invite-sign-ups/
+## Upcoming integrations
+- Follow people on Twitter when they fill out the Typeform sign-up form (if they have completed the form with their Twitter handle)
+- Add people to MailChimp mailing list when they fill out the Typeform
+- Send users a welcome message when they actually do join Slack
 
 ## How it works
 
-We will set up a service to hit the `/inviteusers` endpoint every hour or so (this literally means having a computer visit the service URL + `/inviteusers`)
+This depends on deployment details. The current plan is to run each script out of the `bin` folder using Heroku scheduler, assuming that the free tier allows us to run every 10 minutes.
 
-Visiting this route will trigger the following:
-- Get form responses from the Typeform API
-- Keep track of previously sent invites in a json file (poor man's database)
-- If Typeform gives us emails we haven't invited yet, use the Slack API to invite them to join.
+If this doesn't work, we can set this up as a true Node server app with endpoints which another scheduling service hits at intervals. (There is already an `/inviteusers` endpoint for this.)
+
 
 ## Big Caveat
 This uses the _unpublished_ `users.admin.invite` endpoint of the Slack API. This means that it could change without notice and break our service.
@@ -25,7 +26,7 @@ Many applications are relying on this for now, so if it does change we will be a
 
 - Install node version 4.xx or above
 - Node should come with `npm`. Install if it doesn't.
-- Add your Typeform and Slack API keys to your local computer's environment. *DO NOT EVER COMMIT THESE KEYS TO GITHUB.*
+- Add your Typeform, Slack, and Twitter API keys to your local computer's environment. *DO NOT EVER COMMIT THESE KEYS TO GITHUB.*
 
 ```
 (in Terminal - skip this step if you already have a bash_profile)
@@ -34,6 +35,10 @@ touch ~/.bash_profile
 (inside bash_profile, type the following, substituting <your_key> with the actual API key)
 export SLACK_TOKEN='<your_key>'
 export TYPEFORM_TOKEN='<your_key>'
+export NYCEDU_TWITTER_CONSUMER_KEY='<your_key>'
+export NYCEDU_TWITTER_CONSUMER_SECRET='<your_key>'
+export NYCEDU_TWITTER_ACCESS_TOKEN='<your_key>'
+export NYCEDU_TWITTER_ACCESS_TOKEN_SECRET='<your_key>'
 
 (in Terminal)
 source ~/.bash_profile
@@ -50,9 +55,11 @@ source ~/.bash_profile
 - Get API keys and form values for production Slack team and form
 - Configure application for production and deploy
 - Set up a cron service to hit the endpoint every 30-60 minutes
-- Error handling for connection failures
+- Error handling for connection failures etc.
 - Better logging
-- Match interests to specific channels to invite people to
 - Remove lodash dependency in package.json
 - Tests!
+- Linting and style guide
+- Set up issue tracking and slack / github integrations for devs
 - Better null checking in `parseResponseForEmails`
+- Return more than just emails (also Twitter handles etc.) from `getInvitees`

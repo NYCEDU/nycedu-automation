@@ -1,0 +1,9 @@
+#!/usr/bin/env node
+
+const retweetFriendsWithHashtag = require('../retweet-friends-with-hashtag')
+
+// Retweets statuses using #NYCEDU if the user is followed by NYCEDU
+
+console.log("Searching for tweets to retweet ...")
+
+retweetFriendsWithHashtag('NYCEDU')

@@ -39,6 +39,7 @@ export NYCEDU_TWITTER_CONSUMER_KEY='<your_key>'
 export NYCEDU_TWITTER_CONSUMER_SECRET='<your_key>'
 export NYCEDU_TWITTER_ACCESS_TOKEN='<your_key>'
 export NYCEDU_TWITTER_ACCESS_TOKEN_SECRET='<your_key>'
+export NODE_ENV='development' # set to 'production' in prod
 
 (in Terminal)
 source ~/.bash_profile

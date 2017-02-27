@@ -1,10 +1,10 @@
 {
-  "name": "nycedu-slack",
+  "name": "nycedu-automation",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "./node_modules/mocha/bin/mocha"
   },
   "author": "",
   "license": "ISC",
@@ -13,5 +13,9 @@
     "lodash": "^4.17.2",
     "request": "^2.79.0",
     "twitter": "^1.7.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
   }
 }

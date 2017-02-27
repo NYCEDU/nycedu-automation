@@ -10,6 +10,12 @@
 - Add people to MailChimp mailing list when they fill out the Typeform
 - Send users a welcome message when they actually do join Slack
 
+## Contributing
+- Clone the repo and pull latest
+- Create a branch and commit your changes to it
+- Push the branch to the remote and open a pull request
+- Add another NYCEDU developer as a reviewer of your PR
+
 ## How it works
 
 This depends on deployment details. The current plan is to run each script out of the `bin` folder using Heroku scheduler, assuming that the free tier allows us to run every 10 minutes.

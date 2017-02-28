@@ -55,6 +55,7 @@ source ~/.bash_profile
 - In a text editor, find the `constants.js` file and update the value of `TYPEFORM_EMAIL_FIELD` and `TYPEFORM_FORM_ID` to match your form. `TYPEFORM_FORM_ID` is the last 6 characters of the URL your users see when they go to the form, e.g., `p5DhOL`. The value for `TYPEFORM_EMAIL_FIELD` can be found by going to the Build section of your form workspace, creating a new field and adding the email field as a variable. You'll see something like `{{answer_12345678}}` - that is the value you need, except swap `answer` for `email`. (Then delete the new field when you're done.)
 - Install dependencies: `npm install`
 - Start the application: `npm start`
+- Run tests: `npm test`
 
 ## Top TODOs
 

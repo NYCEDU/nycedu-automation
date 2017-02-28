@@ -1,0 +1,5 @@
+--recursive
+--debug
+--reporter nyan
+--check-leaks
+--require test/support/

@@ -4,8 +4,7 @@
 // To export the prodKeys, the NODE_ENV environment variable
 // must be set to 'production' in bash_profile
 
-const env = process.env,
-    _ = require('lodash')
+const env = process.env
 
 const baseKeys = {
     SLACK_TOKEN: env['SLACK_TOKEN'],
@@ -27,6 +26,6 @@ const prodKeys = {
 
 const envKeys = env['NODE_ENV'] === 'production' ? prodKeys : devKeys
 
-const apiKeys = _.extend({}, baseKeys, envKeys)
+const apiKeys = Object.assign({}, baseKeys, envKeys)
 
 module.exports = apiKeys

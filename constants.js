@@ -9,7 +9,7 @@ const devConstants = {
     TYPEFORM_FORM_ID: 'p5DhOL',
     TYPEFORM_EMAIL_FIELD: 'email_37507879',
     TYPEFORM_TWITTER_FIELD: 'textfield_44354349',
-    MANUALLY_INVITED: 0
+    MANUALLY_INVITED: 8
 }
 
 const prodConstants = {

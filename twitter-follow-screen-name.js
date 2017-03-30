@@ -1,6 +1,7 @@
 const client = require("./twitter-client")
 
 function twitterFollowByScreenName(screenName, callback) {
+    console.log('Following ' + screenName + '...')
     client.post('friendships/create', {screen_name: screenName})
         .then(function(data) {
             console.log(screenName + ' successfully followed!')

@@ -11,6 +11,7 @@
   "dependencies": {
     "express": "^4.14.0",
     "lodash": "^4.17.2",
+    "pg": "^6.1.5",
     "request": "^2.79.0",
     "twitter": "^1.7.0"
   },

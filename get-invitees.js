@@ -6,14 +6,16 @@ const request = require('request'),
       TYPEFORM_FORM_ID = constants.TYPEFORM_FORM_ID,
       TYPEFORM_EMAIL_FIELD = constants.TYPEFORM_EMAIL_FIELD,
       TYPEFORM_TWITTER_FIELD = constants.TYPEFORM_TWITTER_FIELD,
-      getPreviouslyInvited = require('./helpers').getPreviouslyInvited
+      MANUALLY_INVITED = constants.MANUALLY_INVITED,
+      getUsers = require('./db-helpers').getUsers
 
-function getInvitees(callback) {
+
+function getInvitees(numUsers, callback) {
     console.log('getting latest responses from Typeform...')
     // Get an offset because TypeForm only returns 1,000 results max
     // So when over 1,000 have signed up, we need only most recent results
-    const previouslyInvited = getPreviouslyInvited()
-    const offset = previouslyInvited.length
+    const offset = numUsers + MANUALLY_INVITED
+    console.log('requesting from Typeform with an offset of:', offset)
 
     request({
         url: 'https://api.typeform.com/v1/form/' + TYPEFORM_FORM_ID,

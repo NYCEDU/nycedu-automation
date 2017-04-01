@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+// if running locally, you will need to already have created a database
+// Heroku (our current host) creates a database automatically when you
+// install the postgres addon
+
+const createUsersTable = require('../db-helpers').createUsersTable
+
+console.log("creating users table...")
+createUsersTable()

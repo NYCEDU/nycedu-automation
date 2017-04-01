@@ -4,29 +4,30 @@
 // To export the prodKeys, the NODE_ENV environment variable
 // must be set to 'production' in bash_profile
 
-const env = process.env,
-    _ = require('lodash')
+const env = process.env
 
-const baseKeys = {
-    SLACK_TOKEN: env['SLACK_TOKEN'],
+const devKeys = {
+    TYPEFORM_TOKEN: env['DEV_TYPEFORM_TOKEN'],
+    SLACK_TOKEN: env['DEV_SLACK_TOKEN'],
     twitterKeys: {
-        consumer_key: env['NYCEDU_TWITTER_CONSUMER_KEY'],
-        consumer_secret: env['NYCEDU_TWITTER_CONSUMER_SECRET'],
-        access_token_key: env['NYCEDU_TWITTER_ACCESS_TOKEN'],
-        access_token_secret: env['NYCEDU_TWITTER_ACCESS_TOKEN_SECRET']
+        consumer_key: env['DEV_NYCEDU_TWITTER_CONSUMER_KEY'],
+        consumer_secret: env['DEV_NYCEDU_TWITTER_CONSUMER_SECRET'],
+        access_token_key: env['DEV_NYCEDU_TWITTER_ACCESS_TOKEN'],
+        access_token_secret: env['DEV_NYCEDU_TWITTER_ACCESS_TOKEN_SECRET']
     }
 }
 
-const devKeys = {
-    TYPEFORM_TOKEN: env['TYPEFORM_TOKEN']
-}
-
 const prodKeys = {
-    TYPEFORM_TOKEN: env['PROD_TYPEFORM_TOKEN']
+    TYPEFORM_TOKEN: env['PROD_TYPEFORM_TOKEN'],
+    SLACK_TOKEN: env['PROD_SLACK_TOKEN'],
+    twitterKeys: {
+        consumer_key: env['PROD_NYCEDU_TWITTER_CONSUMER_KEY'],
+        consumer_secret: env['PROD_NYCEDU_TWITTER_CONSUMER_SECRET'],
+        access_token_key: env['PROD_NYCEDU_TWITTER_ACCESS_TOKEN'],
+        access_token_secret: env['PROD_NYCEDU_TWITTER_ACCESS_TOKEN_SECRET']
+    }
 }
 
-const envKeys = env['NODE_ENV'] === 'production' ? prodKeys : devKeys
-
-const apiKeys = _.extend({}, baseKeys, envKeys)
+const apiKeys = env['NODE_ENV'] === 'production' ? prodKeys : devKeys
 
 module.exports = apiKeys

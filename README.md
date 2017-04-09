@@ -28,7 +28,7 @@ This uses the _unpublished_ `users.admin.invite` endpoint of the Slack API. This
 
 Many applications are relying on this for now, so if it does change we will be able to find out about it pretty easily.
 
-## Installing and running locally
+## Local installation and setup
 
 - Install node version 4.xx or above
 - Node should come with `npm`. Install if it doesn't.
@@ -50,12 +50,32 @@ export NODE_ENV='development' # set to 'production' in prod
 (in Terminal)
 source ~/.bash_profile
 ```
-- Clone this repo:
+- Install postgres if you don't have it already and set the local timezone to ``'UTC'``. This will spare you much bafflement and suffering because your local db will be on the same timezone as Typeform and Heroku.
+- First check if your psql timezone is UTC
+```
+$ psql
+(inside your postgres shell)
+=# show timezone;
+```
+- If the answer isn't UTC, you need to change it in your `postgresql.conf` file. In the postgres shell, type `SHOW config_file;` and this will output the location of your `postgresql.conf` file. Mine is at `/usr/local/var/postgres/postgresql.conf`
+- Open up `postgresql.conf` in a text editor. Search for all of the places where time zones are set (there are more than one!) and replace them with `UTC`
+
+## Running locally
+- Clone this repo: `git clone https://github.com/NYCEDU/nycedu-automation.git`
 - `cd` into the directory of your repo
-- In a text editor, find the `constants.js` file and update the value of `TYPEFORM_EMAIL_FIELD` and `TYPEFORM_FORM_ID` to match your form. `TYPEFORM_FORM_ID` is the last 6 characters of the URL your users see when they go to the form, e.g., `p5DhOL`. The value for `TYPEFORM_EMAIL_FIELD` can be found by going to the Build section of your form workspace, creating a new field and adding the email field as a variable. You'll see something like `{{answer_12345678}}` - that is the value you need, except swap `answer` for `email`. (Then delete the new field when you're done.)
 - Install dependencies: `npm install`
 - Start the application: `npm start`
 - Run tests: `npm test`
+
+## Typeform form field IDs
+- Each Typeform we use has a unique ID that we need in order to ask Typeform's API for its results.
+- The form fields in Typeform have underlying IDs that we need to know in order to grab values like email, twitter, etc. from the API response.
+- In the code, the form ID is the `TYPEFORM_FORM_ID` value in `constants.js`. `TYPEFORM_FORM_ID` is the last 6 characters of the URL your users see when they go to the form, e.g., `p5DhOL`.
+- The IDs for fields like email address, twitter handle, are also in `constants.js` with keys like `TYPEFORM_EMAIL_FIELD`.
+- The value for `TYPEFORM_EMAIL_FIELD` can be found by going to the Build section of your form workspace, creating a new field and adding the email field as a variable. You'll see something like `{{answer_12345678}}` - that is the value you need, except swap `answer` for `email`. (Then delete the new field when you're done.)
+- Notice that there are two sets of constants and Typeform IDs. One is for the "test" form that is used in the stage environment. The other is for the real form used in production.
+- You would go through the same sort of process if you wanted to create a new form for local development, or if you wanted to add fields to the form. Add your form or field, use the steps above to find the IDs, and add them to `constants.js`
+
 
 ## Top TODOs
 

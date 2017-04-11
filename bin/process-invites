@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
-const getUsersCount = require('../db-helpers').getUsersCount,
- getInvitees = require('../get-invitees'),
- inviteAndFollowUsers = require('../invite-and-follow-users')
+const getMostRecentDateSubmit = require('../db-helpers').getMostRecentDateSubmit,
+    getLatestResponses = require('../typeform-helpers').getLatestResponses,
+    inviteAndFollowUsers = require('../invite-and-follow-users')
 
-getUsersCount( function (numUsers) {
-    getInvitees( numUsers, function (users) {
+getMostRecentDateSubmit( (lastSubmitTimeStamp) => {
+    getLatestResponses(lastSubmitTimeStamp, (users) => {
         inviteAndFollowUsers(users)
     })
 })

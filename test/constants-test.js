@@ -12,7 +12,6 @@ describe("constants.js", function () {
             expect(this.constants.TYPEFORM_FORM_ID).to.equal('p5DhOL')
             expect(this.constants.TYPEFORM_EMAIL_FIELD).to.equal('email_37507879')
             expect(this.constants.TYPEFORM_TWITTER_FIELD).to.equal('textfield_44354349')
-            expect(this.constants.MANUALLY_INVITED).to.equal(8)
         })
     })
 
@@ -26,7 +25,6 @@ describe("constants.js", function () {
             expect(this.constants.TYPEFORM_FORM_ID).to.equal('JYeqCl')
             expect(this.constants.TYPEFORM_EMAIL_FIELD).to.equal('email_37513365')
             expect(this.constants.TYPEFORM_TWITTER_FIELD).to.equal('textfield_37512157')
-            expect(this.constants.MANUALLY_INVITED).to.equal(50)
         })
     })
 

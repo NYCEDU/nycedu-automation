@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Creates a users table and populates it with responses already submitted to Typeform
+// Creates a form_submissions table and populates it with responses already submitted to Typeform
 // This is to be used when setting up a local instance or environment for the first time
 
 // if running locally, you will first need to create a database
@@ -9,23 +9,23 @@
 
 const dbHelpers = require('../db-helpers'),
     typeformHelpers = require('../typeform-helpers'),
-    createUsersTable = dbHelpers.createUsersTable,
-    saveUsers = dbHelpers.saveUsers,
+    createFormSubmissionsTable = dbHelpers.createFormSubmissionsTable,
+    saveFormSubmissions = dbHelpers.saveFormSubmissions,
     getFromTypeform = typeformHelpers.getFromTypeform,
     parseResponses = typeformHelpers.parseResponses
 
-console.log("Creating users table...")
-createUsersTable( () => {
+console.log("Creating form_submissions table...")
+createFormSubmissionsTable( () => {
     console.log("Getting all past responses from Typeform...")
     getFromTypeform( {}, (error, response, body) => {
         if (error) {
             console.log("Error:", error)
         } else {
             console.log("Received data from Typeform.")
-            const users = parseResponses(JSON.parse(body))
-            
-            console.log("Saving past responses to users table...")
-            saveUsers(users, (result) => {
+            const submissions = parseResponses(JSON.parse(body))
+
+            console.log("Saving past responses to form_submissions table...")
+            saveFormSubmissions(submissions, (result) => {
                 console.log(result)
             })
         }

@@ -1,4 +1,5 @@
-const pg = require('pg')
+const pg = require('pg'),
+    FORM_SUBMISSIONS_TABLE_NAME = "form_submissions"
 
 function setTimestampParsersToReturnStrings(types) {
     // 1114 and 1184 are the OID for postgres TIMESTAMPTZ and TIMESTAMP
@@ -27,9 +28,8 @@ function openDbConnection (callback) {
     })
 }
 
-
-function createUsersTable (callback) {
-    const query = `CREATE TABLE IF NOT EXISTS users(
+function createFormSubmissionsTable (callback) {
+    const query = `CREATE TABLE IF NOT EXISTS ${FORM_SUBMISSIONS_TABLE_NAME}(
         id SERIAL PRIMARY KEY NOT NULL,
         email TEXT NOT NULL,
         date_submit TIMESTAMP WITH TIME ZONE NOT NULL,
@@ -41,7 +41,7 @@ function createUsersTable (callback) {
             if (err) {
                 console.error(err)
             } else {
-                console.log("createUsersTable succeeded!")
+                console.log(`create ${FORM_SUBMISSIONS_TABLE_NAME} table succeeded!`)
                 console.log(result)
                 if (callback) {
                     callback(result)
@@ -54,7 +54,7 @@ function createUsersTable (callback) {
 // Returns the STRING VALUE of the most recent date_submit from the database
 function getMostRecentDateSubmit (callback) {
     openDbConnection( (err, client, done) => {
-        const latestDateQuery = `SELECT date_submit FROM users
+        const latestDateQuery = `SELECT date_submit FROM ${FORM_SUBMISSIONS_TABLE_NAME}
                                 ORDER BY date_submit DESC
                                 LIMIT 1;`
         client.query(latestDateQuery, function (err, result) {
@@ -72,9 +72,10 @@ function getMostRecentDateSubmit (callback) {
     })
 }
 
-function getUsersCount (callback) {
+function getFormSubmissionsCount (callback) {
     openDbConnection( (err, client, done) => {
-        client.query('SELECT COUNT(*) FROM users', function (err, result) {
+        const getCountQuery = `SELECT COUNT(*) FROM ${FORM_SUBMISSIONS_TABLE_NAME}`
+        client.query(getCountQuery, function (err, result) {
             done()
             if (err) {
                 console.error(err)
@@ -88,9 +89,10 @@ function getUsersCount (callback) {
     })
 }
 
-function getUsers (callback) {
+function getAllFormSubmissions (callback) {
     openDbConnection( (err, client, done) => {
-        client.query('SELECT * FROM users', function (err, result) {
+        const getAllQuery = `SELECT * FROM ${FORM_SUBMISSIONS_TABLE_NAME}`
+        client.query(getAllQuery, function (err, result) {
             done()
             if (err) {
                 console.error(err)
@@ -103,24 +105,11 @@ function getUsers (callback) {
     })
 }
 
-function getUserByEmail (email, callback) {
+function getFormSubmission (email, dateSubmit, callback) {
     openDbConnection( (err, client, done) => {
-        client.query('SELECT * FROM users WHERE email = $1', [email], function (err, result) {
-            done()
-            if (err) {
-                console.error(err)
-            } else {
-                if (callback) {
-                    callback(result.rows[0])
-                }
-            }
-        })
-    })
-}
-
-function getUserSubmission (email, dateSubmit, callback) {
-    openDbConnection( (err, client, done) => {
-        const findQuery = "SELECT * FROM users WHERE email = $1 AND date_submit = $2"
+        const findQuery = `SELECT * FROM ${FORM_SUBMISSIONS_TABLE_NAME}
+                        WHERE email = $1
+                        AND date_submit = $2`
         client.query(findQuery, [email, dateSubmit], function (err, result) {
             done()
             if (err) {
@@ -134,15 +123,16 @@ function getUserSubmission (email, dateSubmit, callback) {
     })
 }
 
-function saveUser (email, dateSubmit, callback) {
+function saveFormSubmission (email, dateSubmit, callback) {
     openDbConnection( (err, client, done) => {
-        const saveQuery = `INSERT INTO users (email, date_submit) VALUES ($1, $2)`
+        const saveQuery = `INSERT INTO ${FORM_SUBMISSIONS_TABLE_NAME} (email, date_submit)
+                        VALUES ($1, $2)`
         client.query(saveQuery, [email, dateSubmit], function (err, result) {
             done()
             if (err) {
                 console.error(err)
             } else {
-                console.log('successfully saved user: ', email)
+                console.log(`successfully saved form submission: ${email}, ${dateSubmit}`)
                 console.log(result)
                 if (callback) {
                     callback(result)
@@ -152,20 +142,20 @@ function saveUser (email, dateSubmit, callback) {
     })
 }
 
-function saveUsers (users, callback) {
-    users.forEach ( user => {
-        console.log("Saving user:", user)
-        saveUser(user.email, user.dateSubmit, callback)
+function saveFormSubmissions (submissions, callback) {
+    submissions.forEach ( s => {
+        console.log("Saving form submission:", s)
+        saveFormSubmission(s.email, s.dateSubmit, callback)
     })
 }
 
 module.exports = {
-    createUsersTable,
-    getUsersCount,
+    createFormSubmissionsTable,
     getMostRecentDateSubmit,
-    getUsers,
-    getUserByEmail,
-    saveUser,
-    saveUsers,
-    getUserSubmission
+    getFormSubmissionsCount,
+    getAllFormSubmissions,
+    getFormSubmission,
+    saveFormSubmission,
+    saveFormSubmissions,
+
 }

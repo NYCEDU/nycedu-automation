@@ -4,7 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha"
+    "test": "./node_modules/mocha/bin/mocha",
+    "processInvites": "node ./bin/process-invites",
+    "retweet": "node ./bin/retweet"
   },
   "author": "",
   "license": "ISC",

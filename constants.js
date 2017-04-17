@@ -7,15 +7,13 @@
 const devConstants = {
     TYPEFORM_FORM_ID: 'p5DhOL',
     TYPEFORM_EMAIL_FIELD: 'email_37507879',
-    TYPEFORM_TWITTER_FIELD: 'textfield_44354349',
-    MANUALLY_INVITED: 8
+    TYPEFORM_TWITTER_FIELD: 'textfield_44354349'
 }
 
 const prodConstants = {
     TYPEFORM_FORM_ID: 'JYeqCl',
     TYPEFORM_EMAIL_FIELD: 'email_37513365',
-    TYPEFORM_TWITTER_FIELD: 'textfield_37512157',
-    MANUALLY_INVITED: 50 // People who signed up on the form pre-automation and were invited manually
+    TYPEFORM_TWITTER_FIELD: 'textfield_37512157'
 }
 
 const constants = process.env['NODE_ENV'] === 'production' ? prodConstants : devConstants

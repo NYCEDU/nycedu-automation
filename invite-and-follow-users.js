@@ -4,9 +4,8 @@ const request = require('request'),
       path = require('path'),
       TOKEN = require('./api-keys').SLACK_TOKEN,
       dbHelpers = require('./db-helpers'),
-      getUserByEmail = dbHelpers.getUserByEmail,
-      getUserSubmission = dbHelpers.getUserSubmission,
-      saveUser = dbHelpers.saveUser,
+      getFormSubmission = dbHelpers.getFormSubmission,
+      saveFormSubmission = dbHelpers.saveFormSubmission,
       twitterFollowByScreenName = require('./twitter-follow-screen-name')
 
 function inviteAndFollowUsers(users) {
@@ -16,7 +15,7 @@ function inviteAndFollowUsers(users) {
             console.log("Invalid data for user, skipping:", user)
             return;
         }
-        getUserSubmission(user.email, user.dateSubmit, (result) => {
+        getFormSubmission(user.email, user.dateSubmit, (result) => {
             if (!result) {
                 console.log("New form submission:", user)
                 inviteUser(user)
@@ -46,12 +45,12 @@ function inviteUser(user) {
                 console.log('Error inviting ' + email + ': ' + error)
                 console.log(body)
                 if (body.error && ['already_invited', 'already_in_team', 'sent_recently'].indexOf(body.error) > -1) {
-                    saveUser(email, user.dateSubmit)
+                    saveFormSubmission(email, user.dateSubmit)
                 }
             } else {
                 console.log('Successfully invited ' + email)
                 console.log(body)
-                saveUser(email, user.dateSubmit)
+                saveFormSubmission(email, user.dateSubmit)
             }
     })
 }
